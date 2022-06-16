@@ -12,9 +12,53 @@ This PBC let **Entando 7** to be certified as SPID Service Provider
 **NOTE:** installing the PBC alone is not sufficient to start the accreditation process: be sure to read the [technical
 documentation](https://docs.italia.it/italia/spid/spid-regole-tecniche/it/stabile/index.html) first and then the whole [certification procedure](https://www.spid.gov.it/cos-e-spid/diventa-fornitore-di-servizi/).
 
-## Setup operations
 
-Make sure to have an updated version of `ent` and to have the proper version of `kubectl` (or `oc`) installed.
+## Setup (before use)
+
+**NOTE**: the following step are intended for devOps / sysOps
+
+### 1 - copy the provider JAR into Keycloak
+
+Download the [JAR provider](https://github.com/entando-ps/entando-spid-integration-bundle/raw/master/extra/spid-provider.jar)
+
+Copy the file inside the Keycloak POD with the command
+
+for Keycloak 7.5.1.GA
+```shell
+kubectl cp ./bundle/extra/spid-provider.jar default-sso-in-namespace-deployment-aaabbbccc-dddee:/opt/eap/standalone/deployments -n <NAMESPACE>
+```
+
+for Keycloak 15.1.1 community
+```shell
+kubectl cp ./bundle/extra/spid-provider.jar default-sso-in-namespace-deployment-aaabbbccc-dddee:/opt/jboss/keycloak/standalone/deployments -n <NAMESPACE>
+```
+
+where:
+- `default-sso-in-namespace-deployment-aaabbbccc-dddee` is the name of the Keycloak pod
+- <NAMESPACE> is the namespace where Entando 7 is installed
+
+
+### 2 - secrets creation
+
+After importing the bundle from the Entando Hub you have to create these three secrets  
+
+```shell
+kubectl create secret generic c0a4c5e6-sso-url --from-literal=url=<KEYCLOAK_URL> -n <NAMESPACE>
+```
+
+```shell
+kubectl create secret generic c0a4c5e6-sso-admin-username --from-literal=<USERNAME> -n <NAMESPACE>
+```
+
+```shell
+kubectl create secret generic c0a4c5e6-sso-admin-password --from-literal=<PASSWORD> -n <NAMESPACE>
+```
+
+Now the bundle is ready to be installed.
+
+## Bundle extension
+
+Make sure to have an updated [version of the CLI]() and to have the proper version of `kubectl` (or `oc`) installed.
 
 ### 1 - Preliminary operations
 
@@ -23,7 +67,8 @@ Let's say that we want to work in a directory named `spid` in a path of choice:
 
 ```shell
 mkdir spid && cd spid
-
+```
+```shell
 git clone https://github.com/entando-ps/entando-spid-integration-bundle.git bundle
 ```
 
@@ -40,10 +85,10 @@ At this point you should have this directory layout
 └── bundle
 		├── descriptor.yaml
 		├── extra
-		│		├── spid-logo-c-lb.png
-		│		└── spid-provider.jar
+		│       ├── spid-logo-c-lb.png
+		│       └── spid-provider.jar
 		├── plugins
-		│		└── spid-plugin.yaml
+		│       └── spid-plugin.yaml
 		└── README.md
 ```
 
@@ -135,9 +180,10 @@ Create the secret for username and password with the following commands
 
 ```shell
 kubectl create secret generic <BUNDLE_ID>-sso-admin-username --from-literal=username=<USERNAME> -n <NAMESPACE>
+```
 
+```shell
 kubectl create secret generic <BUNDLE_ID>-sso-admin-password --from-literal=password=<PASSWORD> -n <NAMESPACE>
-
 ```
 
 where:
@@ -207,6 +253,3 @@ ent prj deploy
 ```
 
 It's now possible to install the bundle from the App Builder -> Repository -> SPID bundle
-
-
-
