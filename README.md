@@ -106,7 +106,7 @@ Now we have to move the bundle in the company repository. To do so we use he com
 ent prj pbs-init
 ```
 
-Provide all the requested data (essentially everything to push on the repository):
+Provide all the requested information:
 
 ```shell
 Please provide the URL of the publication repository: <MY_COMPANY_REPO>
@@ -159,7 +159,7 @@ The output of this command <BUNDLE_ID> is an alphanumeric string like eg. `ad14e
 **NOTE:** the creation of the secrets must be done only once and repeated only when the <MY_COMPANY_REPO> changes.
 
 The bundle always expects three secrets to be present: **their names must always start with the bundle ID**.   
-Let's say that the bundle OD is `ad14e819`, then the bundle expects the following names:
+If the bundle ID is `ad14e819` then the following names are expected:
 
 | secret name                     | Scope    | description                                                       |
 |---------------------------------|----------|-------------------------------------------------------------------|
