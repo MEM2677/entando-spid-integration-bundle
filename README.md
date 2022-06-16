@@ -61,7 +61,7 @@ Now we have to move the bundle in the company repository. To do so we use he com
 ent prj pbs-init
 ```
 
-Provide all the requested data (essentially everything to push on the repository):
+Provide all the requested information:
 
 ```shell
 Please provide the URL of the publication repository: <MY_COMPANY_REPO>
