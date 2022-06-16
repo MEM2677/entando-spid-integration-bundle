@@ -1,0 +1,31 @@
+descriptorVersion: v4
+image: entandopsdh/spid-bundle:0.1.0
+dbms: postgresql
+healthCheckPath: "/management/health"
+roles:
+  - "spid-admin"
+ingressPath: "/spid"
+permissions:
+    - clientId: realm-management
+      role: manage-users
+    - clientId: realm-management
+      role: view-users
+environmentVariables:
+    - name: SPID_CONFIG_ACTIVE
+      value: "true"
+    - name: KEYCLOACK_HOST
+      valueFrom:
+          secretKeyRef:
+              name: c0a4c5e6-sso-url
+              key: url
+    - name: KEYCLOACK_USERNAME
+      valueFrom:
+          secretKeyRef:
+              name: c0a4c5e6-sso-admin-username
+              key: username
+    - name: KEYCLOACK_PASSWORD
+      valueFrom:
+          secretKeyRef:
+              name: c0a4c5e6-sso-admin-password
+              key: password
+
