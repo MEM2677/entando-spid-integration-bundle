@@ -114,7 +114,7 @@ The output of this command <BUNDLE_ID> is an alphanumeric string like eg. `ad14e
 **NOTE:** the creation of the secrets must be done only once and repeated only when the <MY_COMPANY_REPO> changes.
 
 The bundle always expects three secrets to be present: **their names must always start with the bundle ID**.   
-Let's say that the bundle OD is `ad14e819`, then the bundle expects the following names:
+If the bundle ID is `ad14e819` then the following names are expected:
 
 | secret name                     | Scope    | description                                                       |
 |---------------------------------|----------|-------------------------------------------------------------------|
