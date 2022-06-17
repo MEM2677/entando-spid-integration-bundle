@@ -25,22 +25,22 @@ Copy the file inside the Keycloak POD with the command
 
 for Keycloak 7.5.1.GA
 ```shell
-kubectl cp ./bundle/extra/spid-provider.jar default-sso-in-namespace-deployment-aaabbbccc-dddee:/opt/eap/standalone/deployments -n <NAMESPACE>
+kubectl cp ./bundle/extra/spid-provider.jar <KEYCLOACK_POD>:/opt/eap/standalone/deployments -n <NAMESPACE>
 ```
 
 for Keycloak 15.1.1 community
 ```shell
-kubectl cp ./bundle/extra/spid-provider.jar default-sso-in-namespace-deployment-aaabbbccc-dddee:/opt/jboss/keycloak/standalone/deployments -n <NAMESPACE>
+kubectl cp ./bundle/extra/spid-provider.jar <KEYCLOAK_POD>:/opt/jboss/keycloak/standalone/deployments -n <NAMESPACE>
 ```
 
 where:
-- `default-sso-in-namespace-deployment-aaabbbccc-dddee` is the name of the Keycloak pod
-- <NAMESPACE> is the namespace where Entando 7 is installed
+- KEYCLOAK_POD is the Keycloak pod: the name always starts with **default-sso-in-namespace-deployment**`
+- NAMESPACE is the namespace where Entando 7 is installed
 
 
 ### 2 - secrets creation
 
-After importing the bundle from the Entando Hub you have to create these three secrets  
+After importing the bundle from the Entando Hub you have to create these three secrets:  
 
 ```shell
 kubectl create secret generic c0a4c5e6-sso-url --from-literal=url=<KEYCLOAK_URL> -n <NAMESPACE>
@@ -63,7 +63,7 @@ Once that the bundle is installed access the Keycloak management interface to ob
 Identity Provider -> **SPID** -> SPID service provider metadata.
 
 
-## Bundle extension (for developers)
+## Bundle extension
 
 **NOTE:** the following steps are for those developers that want to generate custom releases of the
 bundle.
